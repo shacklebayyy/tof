@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Student</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <script>
+        // Function to show the modal on page load
+        window.onload = function () {
+            var myModal = new bootstrap.Modal(document.getElementById('searchModal'));
+            myModal.show();
+        };
+
+        // Function to close modal when form is submitted
+        function closeModal() {
+            var myModalEl = document.getElementById('searchModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+        }
+    </script>
+</head>
+<body class="container mt-5">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">Kaplong Oversights App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'app1:search_student' %}">Search Another Student</a></li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'app1:viewdata' %}">View Students</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal for Admission Number Input -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Enter Admission Number</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="GET" action="{% url 'app1:search_student' %}" onsubmit="closeModal()">
+                        <input type="text" name="adm" class="form-control" placeholder="Enter Admission Number" required>
+                        <button type="submit" class="btn btn-primary mt-3">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if student %}
+    <!-- Student Details Section -->
+    <div class="card shadow-sm p-4">
+        <h3 class="text-center text-primary">Student Details</h3>
+        <div class="row mt-3">
+            
+        {% if student.third_mistake %}
+        <!-- Black Book Alert -->
+        <div class="alert alert-danger text-center mt-3">
+            <strong>⚠ WARNING:</strong> This student is in the <strong>Black Book</strong> due to multiple Indicipline cases.
+        </div>
+        {% endif %}
+
+
+            <div class="col-md-6">
+                <p><strong>Admission Number:</strong> {{ student.adm }}</p>
+                <p><strong>First Name:</strong> {{ student.fname }}</p>
+                <p><strong>Last Name:</strong> {{ student.sname }}</p>
+                <p><strong>Class:</strong> {{ student.classs }}</p>
+                <p><strong>Stream:</strong> {{ student.stream }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>KCPE Marks:</strong> {{ student.kcpe_marks }}</p>
+                <p><strong>Current Grade:</strong> {{ student.current_grade }}</p>
+                <p><strong>Age:</strong> {{ student.age }}</p>
+                <p><strong>First Mistake:</strong> {{ student.mistake }}</p>
+                <p><strong>Second Mistake:</strong> {{ student.mistake_1 }}</p>
+                <p><strong>Third Mistake:</strong> {{ student.third_mistake|default:"None" }}</p>
+                <p><strong>Correction Assigned:</strong> {{ student.punshmentgiven }}</p>
+            </div>
+        </div>
+        {% if student.picture %}
+        <div class="text-center mt-3">
+            <img src="{{ student.picture.url }}" alt="Student Photo" class="img-thumbnail" width="200">
+        </div>
+        {% endif %}
+    </div>
+    
+
+    {% elif query %}
+        <p class="text-danger text-center mt-3">No student found with admission number {{ query }}</p>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

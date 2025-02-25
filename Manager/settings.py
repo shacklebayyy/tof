@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+LOGIN_REDIRECT_URL = 'app1:home'
+LOGOUT_REDIRECT_URL = 'app1:login'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,7 @@ SECRET_KEY = 'django-insecure-sx#z1sspr$0&0u$_=l_$l5%-s0d$yr7c%-k293@akv$u+-ss$4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0","tof-kacq.onrender.com"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -52,6 +55,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Manager.urls'
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost']
+
 
 TEMPLATES = [
     {
@@ -133,6 +139,12 @@ MESSAGE_TAGS={
 
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = 'app1:login'
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "dennisdegood@gmail.com"
+EMAIL_HOST_PASSWORD = "fwbb mabo njqa izag"
 
