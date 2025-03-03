@@ -11,3 +11,8 @@ class StudentForm(forms.ModelForm):
         if Student.objects.filter(adm=adm).exists():
             raise forms.ValidationError("A student with this admission number already exists.")
         return adm
+
+from django.contrib.auth.forms import AuthenticationForm
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(label="Username or Email", widget=forms.TextInput(attrs={'class': 'form-control'}))

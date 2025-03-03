@@ -13,6 +13,17 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.conf import settings
 
+from django.contrib.auth.views import LoginView
+from .forms import LoginForm
+
+from datetime import date
+
+def students_by_date(request):
+    today_students = Student.objects.filter(mistake_date=date.today())  # ✅ Get today's students
+    return render(request, "students_list.html", {"students": today_students})
+
+class CustomLoginView(LoginView):
+    authentication_form = LoginForm
 
 
 def verify_otp(request):
@@ -188,7 +199,7 @@ def insert_student(request):
 
 
 
-
+@login_required
 def insertData(request):
     if request.method=="POST":
         fname=request.POST.get('fname')
@@ -206,7 +217,7 @@ def insertData(request):
         picture = request.FILES.get('picture')  # ✅ Get the uploaded image
         blackbook = request.POST.get('blackbook')
         # print(name,email,age,gender)
-        query=Student(fname=fname,sname = sname,kcpe_marks = kcpe_marks ,current_grade = current_grade ,adm =adm ,age=age,classs =classs, stream =stream, mistake = mistake,  mistake_1 = mistake_1,  third_mistake =third_mistake,  blackbook = blackbook, punshmentgiven = punshmentgiven, picture =picture )
+        query=Student(fname=fname,sname = sname,kcpe_marks = kcpe_marks ,current_grade = current_grade ,adm =adm ,age=age,classs =classs, stream =stream, mistake = mistake,  mistake_1 = mistake_1,  third_mistake =third_mistake,  blackbook = blackbook, punshmentgiven = punshmentgiven, picture =picture, created_by=request.user ) # Assigning the logged-in user )
         query.save()
         messages.info(request,"Data Inserted Successfully")
         return redirect("/")

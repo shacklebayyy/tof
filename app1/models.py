@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
@@ -16,7 +17,10 @@ class Student(models.Model):
     picture = models.ImageField(upload_to='students_pics/', null=True, blank=True)
     third_mistake = models.TextField(null=True, blank=True)  # ✅ Third Mistake
     blackbook = models.BooleanField(default=False)  # ✅ Blackbook
-    
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=1)
+    mistake_date = models.DateField(auto_now_add=True)  # Auto set on creation
+
+        
     def save(self, *args, **kwargs):
         """ Automatically update blackbook status based on third_mistake """
         if self.third_mistake:
@@ -26,4 +30,4 @@ class Student(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.fname} {self.sname} ({self.adm})"
+        return f"{self.fname} {self.sname} ({self.adm})- Added by {self.created_by.username}"

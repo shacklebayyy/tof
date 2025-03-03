@@ -82,6 +82,9 @@
                 <p><strong>Last Name:</strong> {{ student.sname }}</p>
                 <p><strong>Class:</strong> {{ student.classs }}</p>
                 <p><strong>Stream:</strong> {{ student.stream }}</p>
+                <p><strong>Teacher Added: </strong>{{ student.created_by.username }}</p>
+                <p><strong>Date Added</strong> {{ student.mistake_date }}</p>
+            
             </div>
             <div class="col-md-6">
                 <p><strong>KCPE Marks:</strong> {{ student.kcpe_marks }}</p>
