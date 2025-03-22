@@ -12,8 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-fallback-secret-key')
 
 DEBUG = os.getenv('DJANGO_DEBUG', 'FALSE') == 'FALSE'
-
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = [
+    "kaplong.apensoftwares.co.ke",
+    "www.kaplong.apensoftwares.co.ke",
+    "127.0.0.1",
+    "localhost"
+]
 
 # Installed apps
 INSTALLED_APPS = [
